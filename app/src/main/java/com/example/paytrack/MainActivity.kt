@@ -48,10 +48,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupQuickActions() {
-        // Aquí se configurarían los listeners para los botones de acciones rápidas
-        // Por ahora solo implementamos el botón de QR
-        binding.root.findViewById<android.widget.LinearLayout>(R.id.qrButton).setOnClickListener {
+        // Configurar el botón de pagar
+        binding.payButton.setOnClickListener {
+            startActivity(Intent(this, PayActivity::class.java))
+        }
+
+        // Configurar el botón de transferir
+        binding.transferButton.setOnClickListener {
+            startActivity(Intent(this, TransferActivity::class.java))
+        }
+
+        // Configurar el botón de QR
+        binding.qrButton.setOnClickListener {
             startActivity(Intent(this, QRActivity::class.java))
+        }
+
+        // Configurar el botón de más
+        binding.moreButton.setOnClickListener {
+            // Aquí iría la lógica para mostrar más opciones
+            android.widget.Toast.makeText(
+                this,
+                "Más opciones",
+                android.widget.Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }

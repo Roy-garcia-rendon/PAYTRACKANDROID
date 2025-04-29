@@ -2,7 +2,31 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="blue_500">#009EE3</color>
-    <color name="gray_500">#757575</color>
-    <color name="gray_200">#EEEEEE</color>
+    
+    <!-- Colores principales -->
+    <color name="dark_primary">#FF1A1A1A</color>
+    <color name="dark_secondary">#FF2D2D2D</color>
+    <color name="dark_accent">#FF3D3D3D</color>
+    
+    <!-- Colores de texto -->
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#FFE6E6E6</color>
+    <color name="text_hint">#FFCCCCCC</color>
+    
+    <!-- Colores de acento -->
+    <color name="accent_primary">#FF4A4A4A</color>
+    <color name="accent_secondary">#FF5A5A5A</color>
+    
+    <!-- Colores de fondo -->
+    <color name="background_primary">#FF000000</color>
+    <color name="background_secondary">#FF1A1A1A</color>
+    
+    <!-- Colores de bordes y sombras -->
+    <color name="border_light">#FF333333</color>
+    <color name="border_dark">#FF1A1A1A</color>
+
+    <!-- Colores adicionales -->
+    <color name="blue_500">#FF2196F3</color>
+    <color name="gray_500">#FF9E9E9E</color>
+    <color name="gray_200">#FFEEEEEE</color>
 </resources>
