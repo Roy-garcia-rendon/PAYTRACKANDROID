@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_profile -> {
-                    // Navegar a la pantalla de perfil
+                    startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
                 else -> false
