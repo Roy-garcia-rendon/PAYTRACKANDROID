@@ -58,7 +58,10 @@ class ProfileActivity : AppCompatActivity() {
             .setTitle("Cerrar sesión")
             .setMessage("¿Estás seguro de que deseas cerrar sesión?")
             .setPositiveButton("Sí") { _, _ ->
-                // TODO: Implementar la lógica de cierre de sesión
+                // Redirigir al login y limpiar el stack de actividades
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
                 finish()
             }
             .setNegativeButton("No", null)
