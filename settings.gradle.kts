@@ -21,4 +21,14 @@ dependencyResolutionManagement {
 
 rootProject.name = "PAYTRACK"
 include(":app")
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.48")
+    }
+}
  
