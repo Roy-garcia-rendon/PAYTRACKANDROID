@@ -7,6 +7,12 @@ import java.util.Date
 
 @Dao
 interface TransactionDao {
+    @Query("SELECT * FROM transactions ORDER BY transactionDate DESC LIMIT 50")
+    suspend fun getRecentTransactions(): List<Transaction>
+
+    @Query("SELECT * FROM transactions WHERE id = :transactionId")
+    suspend fun getTransactionById(transactionId: Long): Transaction?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(transaction: Transaction): Long
 
@@ -16,10 +22,7 @@ interface TransactionDao {
     @Delete
     suspend fun delete(transaction: Transaction)
 
-    @Query("SELECT * FROM transactions WHERE id = :transactionId")
-    fun getTransactionById(transactionId: Long): Flow<Transaction?>
-
-    @Query("SELECT * FROM transactions WHERE userId = :userId")
+    @Query("SELECT * FROM transactions WHERE userId = :userId ORDER BY transactionDate DESC")
     fun getTransactionsByUserId(userId: Long): Flow<List<Transaction>>
 
     @Query("SELECT * FROM transactions WHERE userId = :userId AND type = :type")

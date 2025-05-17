@@ -48,24 +48,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "paytrack_database"
                 )
-                .addCallback(object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-                        super.onCreate(db)
-                        CoroutineScope(Dispatchers.IO).launch {
-                            val userDao = getDatabase(context).userDao()
-                            // Insert initial user
-                            val initialUser = User(
-                                name = "Rodrigo Aner Garcia Rendon",
-                                email = "rodrigoa.gr11@gmail.com",
-                                password = "2007rox345rt",
-                                profileImage = null,
-                                createdAt = System.currentTimeMillis(),
-                                updatedAt = System.currentTimeMillis()
-                            )
-                            userDao.insert(initialUser)
-                        }
-                    }
-                })
+                .fallbackToDestructiveMigration() // Permite recrear la base de datos si hay cambios en el esquema
                 .build()
                 INSTANCE = instance
                 instance

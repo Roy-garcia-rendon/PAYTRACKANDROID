@@ -6,6 +6,12 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WalletDao {
+    @Query("SELECT * FROM wallets ORDER BY updatedAt DESC")
+    suspend fun getAllWallets(): List<Wallet>
+
+    @Query("SELECT * FROM wallets WHERE id = :walletId")
+    suspend fun getWalletById(walletId: Long): Wallet?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wallet: Wallet): Long
 
@@ -15,12 +21,6 @@ interface WalletDao {
     @Delete
     suspend fun delete(wallet: Wallet)
 
-    @Query("SELECT * FROM wallets WHERE id = :walletId")
-    fun getWalletById(walletId: Long): Flow<Wallet?>
-
     @Query("SELECT * FROM wallets WHERE userId = :userId")
     fun getWalletsByUserId(userId: Long): Flow<List<Wallet>>
-
-    @Query("SELECT * FROM wallets")
-    fun getAllWallets(): Flow<List<Wallet>>
 } 

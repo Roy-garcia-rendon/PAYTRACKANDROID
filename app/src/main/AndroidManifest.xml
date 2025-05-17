@@ -38,6 +38,12 @@
         <activity
             android:name=".SignUpActivity"
             android:exported="false" />
+        <activity
+            android:name=".WalletActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

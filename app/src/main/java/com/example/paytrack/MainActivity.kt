@@ -31,11 +31,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_wallet -> {
-                    // Navegar a la pantalla de billetera
+                    startActivity(Intent(this, WalletActivity::class.java))
                     true
                 }
                 R.id.navigation_activity -> {
-                    // Navegar a la pantalla de actividad
+                    startActivity(Intent(this, ActivityActivity::class.java))
                     true
                 }
                 R.id.navigation_profile -> {
