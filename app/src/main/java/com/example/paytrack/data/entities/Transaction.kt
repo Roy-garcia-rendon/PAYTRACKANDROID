@@ -19,6 +19,12 @@ import java.util.Date
             parentColumns = ["id"],
             childColumns = ["categoryId"],
             onDelete = ForeignKey.SET_NULL
+        ),
+        ForeignKey(
+            entity = Wallet::class,
+            parentColumns = ["id"],
+            childColumns = ["walletId"],
+            onDelete = ForeignKey.CASCADE
         )
     ]
 )
@@ -26,6 +32,7 @@ data class Transaction(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val userId: Long,
+    val walletId: Long,
     val amount: Double,
     val type: String, // "INCOME" or "EXPENSE"
     val description: String,

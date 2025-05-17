@@ -8,7 +8,7 @@ import java.util.Date
 @Dao
 interface TransactionDao {
     @Query("SELECT * FROM transactions ORDER BY transactionDate DESC LIMIT 50")
-    suspend fun getRecentTransactions(): List<Transaction>
+    fun getRecentTransactions(): Flow<List<Transaction>>
 
     @Query("SELECT * FROM transactions WHERE id = :transactionId")
     suspend fun getTransactionById(transactionId: Long): Transaction?

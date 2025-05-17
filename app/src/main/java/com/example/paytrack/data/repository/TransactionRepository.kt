@@ -9,6 +9,9 @@ import kotlinx.coroutines.withContext
 
 class TransactionRepository(private val transactionDao: TransactionDao) {
     
+    fun getRecentTransactions(): Flow<List<Transaction>> = transactionDao.getRecentTransactions()
+        .flowOn(Dispatchers.IO)
+    
     fun getTransactionsByUserId(userId: Long): Flow<List<Transaction>> = transactionDao.getTransactionsByUserId(userId)
         .flowOn(Dispatchers.IO)
     

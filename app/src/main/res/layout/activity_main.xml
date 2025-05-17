@@ -68,13 +68,23 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/totalBalanceText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="$0,00"
+                        android:text="$1,234.56"
                         android:textColor="@color/white"
                         android:textSize="32sp"
                         android:textStyle="bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/availableBalanceButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Ver saldo disponible"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/blue_500" />
 
                 </LinearLayout>
 
@@ -207,7 +217,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Recent Activity -->
+            <!-- Recent Transactions -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -223,18 +233,27 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Actividad reciente"
+                        android:text="Transferencias recientes"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recentTransactionsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:nestedScrollingEnabled="false" />
+
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/emptyTransactionsText"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:gravity="center"
-                        android:text="No hay actividad reciente"
-                        android:textColor="@color/white" />
+                        android:text="No hay transferencias recientes"
+                        android:textColor="@color/gray_500"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -245,13 +264,13 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#000000"
-        app:itemIconTint="@color/blue_500"
-        app:itemTextColor="@color/blue_500"
-        app:menu="@menu/bottom_nav_menu" />
+        android:background="@color/white"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/bottom_navigation_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,5 +1,6 @@
 package com.example.paytrack
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.paytrack.databinding.ActivityPayBinding
@@ -13,6 +14,7 @@ class PayActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupToolbar()
+        setupAvailableBalanceButton()
     }
 
     private fun setupToolbar() {
@@ -21,6 +23,12 @@ class PayActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
+        }
+    }
+
+    private fun setupAvailableBalanceButton() {
+        binding.availableBalanceButton.setOnClickListener {
+            startActivity(Intent(this, WalletActivity::class.java))
         }
     }
 } 

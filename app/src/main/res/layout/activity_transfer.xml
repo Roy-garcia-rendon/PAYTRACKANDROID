@@ -142,7 +142,7 @@
                         android:layout_marginTop="8dp"
                         android:background="@null"
                         android:hint="Agregar una descripción"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="16sp" />
 
                 </LinearLayout>

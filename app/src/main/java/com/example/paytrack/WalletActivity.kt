@@ -33,6 +33,7 @@ class WalletActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
@@ -80,7 +81,7 @@ class WalletActivity : AppCompatActivity() {
             try {
                 val newWallet = Wallet(
                     userId = currentUserId,
-                    balance = 0.0,
+                    balance = 1234.56, // Saldo inicial establecido
                     currency = "MXN",
                     createdAt = Date(),
                     updatedAt = Date()
