@@ -4,50 +4,50 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.paytrack.data.AppDatabase
+import com.example.paytrack.data.repository.UserRepository
 import com.example.paytrack.databinding.ActivityLoginBinding
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var userRepository: UserRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupClickListeners()
-    }
+        // Initialize database and repository
+        val database = AppDatabase.getDatabase(this)
+        userRepository = UserRepository(database.userDao())
 
-    private fun setupClickListeners() {
-        binding.loginButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
+        binding.btnLogin.setOnClickListener {
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
 
-            if (validateInput(email, password)) {
-                // Aquí iría la lógica de autenticación
-                // Por ahora, solo verificamos que los campos no estén vacíos
-                if (email == "usuario@ejemplo.com" && password == "123456") {
-                    startActivity(Intent(this, MainActivity::class.java))
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Por favor complete todos los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            lifecycleScope.launch {
+                val user = userRepository.validateCredentials(email, password)
+                if (user != null) {
+                    // Login successful
+                    Toast.makeText(this@LoginActivity, "Login exitoso", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     finish()
                 } else {
-                    Toast.makeText(this, "Credenciales inválidas", Toast.LENGTH_SHORT).show()
+                    // Login failed
+                    Toast.makeText(this@LoginActivity, "Credenciales inválidas", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
-        binding.registerPrompt.setOnClickListener {
+        binding.tvRegister.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
-    }
-
-    private fun validateInput(email: String, password: String): Boolean {
-        if (email.isEmpty()) {
-            binding.emailLayout.error = "El correo electrónico es requerido"
-            return false
-        }
-        if (password.isEmpty()) {
-            binding.passwordLayout.error = "La contraseña es requerida"
-            return false
-        }
-        return true
     }
 } 

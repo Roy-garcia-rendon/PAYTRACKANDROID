@@ -1,69 +1,77 @@
 package com.example.paytrack
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.paytrack.data.AppDatabase
+import com.example.paytrack.data.entities.User
+import com.example.paytrack.data.repository.UserRepository
 import com.example.paytrack.databinding.ActivitySignupBinding
+import kotlinx.coroutines.launch
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
+    private lateinit var userRepository: UserRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupClickListeners()
-    }
+        // Initialize database and repository
+        val database = AppDatabase.getDatabase(this)
+        userRepository = UserRepository(database.userDao())
 
-    private fun setupClickListeners() {
-        binding.backButton.setOnClickListener {
-            onBackPressed()
-        }
+        binding.btnRegister.setOnClickListener {
+            val name = binding.etName.text.toString()
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+            val confirmPassword = binding.etConfirmPassword.text.toString()
 
-        binding.signupButton.setOnClickListener {
-            val name = binding.nameEditText.text.toString()
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
-            val confirmPassword = binding.confirmPasswordEditText.text.toString()
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                Toast.makeText(this, "Por favor complete todos los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            if (validateInput(name, email, password, confirmPassword)) {
-                // Aquí iría la lógica de registro
-                // Por ahora, solo mostramos un mensaje de éxito
-                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                finish()
+            if (password != confirmPassword) {
+                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            lifecycleScope.launch {
+                // Check if email already exists
+                val existingUser = userRepository.getUserByEmail(email)
+                if (existingUser != null) {
+                    Toast.makeText(this@SignUpActivity, "El correo electrónico ya está registrado", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+
+                // Create new user
+                val newUser = User(
+                    name = name,
+                    email = email,
+                    password = password,
+                    profileImage = null,
+                    createdAt = System.currentTimeMillis(),
+                    updatedAt = System.currentTimeMillis()
+                )
+
+                val userId = userRepository.insertUser(newUser)
+                if (userId > 0) {
+                    Toast.makeText(this@SignUpActivity, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@SignUpActivity, LoginActivity::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(this@SignUpActivity, "Error al registrar usuario", Toast.LENGTH_SHORT).show()
+                }
             }
         }
-    }
 
-    private fun validateInput(name: String, email: String, password: String, confirmPassword: String): Boolean {
-        var isValid = true
-
-        if (name.isEmpty()) {
-            binding.nameLayout.error = "El nombre es requerido"
-            isValid = false
+        binding.tvLogin.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
-
-        if (email.isEmpty()) {
-            binding.emailLayout.error = "El correo electrónico es requerido"
-            isValid = false
-        }
-
-        if (password.isEmpty()) {
-            binding.passwordLayout.error = "La contraseña es requerida"
-            isValid = false
-        }
-
-        if (confirmPassword.isEmpty()) {
-            binding.confirmPasswordLayout.error = "Confirma tu contraseña"
-            isValid = false
-        }
-
-        if (password != confirmPassword) {
-            binding.confirmPasswordLayout.error = "Las contraseñas no coinciden"
-            isValid = false
-        }
-
-        return isValid
     }
 } 
