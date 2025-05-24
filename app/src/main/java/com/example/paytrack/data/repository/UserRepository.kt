@@ -11,8 +11,16 @@ class UserRepository(private val userDao: UserDao) {
         userDao.getUserByEmail(email)
     }
     
+    suspend fun getUserById(userId: Long): User? = withContext(Dispatchers.IO) {
+        userDao.getUserByIdSuspend(userId)
+    }
+    
     suspend fun insertUser(user: User): Long = withContext(Dispatchers.IO) {
         userDao.insert(user)
+    }
+    
+    suspend fun updateUser(user: User) = withContext(Dispatchers.IO) {
+        userDao.update(user)
     }
     
     suspend fun validateCredentials(email: String, password: String): User? = withContext(Dispatchers.IO) {

@@ -21,12 +21,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var walletRepository: WalletRepository
     private lateinit var transactionRepository: TransactionRepository
     private lateinit var transactionAdapter: TransactionAdapter
-    private var currentUserId: Long = 1 // TODO: Obtener el ID del usuario actual de la sesión
+    private var currentUserId: Long = 1 // Valor por defecto
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Obtener el ID del usuario del intent
+        currentUserId = intent.getLongExtra("USER_ID", 1L)
 
         setupRepositories()
         setupToolbar()
@@ -57,15 +60,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         binding.availableBalanceButton.setOnClickListener {
-            startActivity(Intent(this, WalletActivity::class.java))
+            val intent = Intent(this, WalletActivity::class.java)
+            intent.putExtra("USER_ID", currentUserId)
+            startActivity(intent)
         }
 
         binding.payButton.setOnClickListener {
-            startActivity(Intent(this, PayActivity::class.java))
+            val intent = Intent(this, PayActivity::class.java)
+            intent.putExtra("USER_ID", currentUserId)
+            startActivity(intent)
         }
 
         binding.transferButton.setOnClickListener {
-            startActivity(Intent(this, TransferActivity::class.java))
+            val intent = Intent(this, TransferActivity::class.java)
+            intent.putExtra("USER_ID", currentUserId)
+            startActivity(intent)
         }
 
         binding.qrButton.setOnClickListener {
@@ -85,15 +94,21 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_wallet -> {
-                    startActivity(Intent(this, WalletActivity::class.java))
+                    val intent = Intent(this, WalletActivity::class.java)
+                    intent.putExtra("USER_ID", currentUserId)
+                    startActivity(intent)
                     true
                 }
                 R.id.navigation_activity -> {
-                    startActivity(Intent(this, ActivityActivity::class.java))
+                    val intent = Intent(this, ActivityActivity::class.java)
+                    intent.putExtra("USER_ID", currentUserId)
+                    startActivity(intent)
                     true
                 }
                 R.id.navigation_profile -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    intent.putExtra("USER_ID", currentUserId)
+                    startActivity(intent)
                     true
                 }
                 else -> false

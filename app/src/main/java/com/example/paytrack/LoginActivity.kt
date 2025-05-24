@@ -53,7 +53,9 @@ class LoginActivity : AppCompatActivity() {
                     if (user != null) {
                         // Login successful
                         Toast.makeText(this@LoginActivity, "Login exitoso", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        intent.putExtra("USER_ID", user.id)
+                        startActivity(intent)
                         finish()
                     } else {
                         // Login failed
