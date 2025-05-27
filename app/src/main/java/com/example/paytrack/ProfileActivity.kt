@@ -73,8 +73,8 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.securityButton.setOnClickListener {
-            // TODO: Implementar la configuración de seguridad
-            showToast("Seguridad")
+            val intent = Intent(this, SecurityActivity::class.java)
+            startActivity(intent)
         }
 
         binding.notificationsButton.setOnClickListener {
@@ -83,8 +83,8 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.helpButton.setOnClickListener {
-            // TODO: Implementar la ayuda y soporte
-            showToast("Ayuda y soporte")
+            val intent = Intent(this, SupportActivity::class.java)
+            startActivity(intent)
         }
 
         binding.logoutButton.setOnClickListener {

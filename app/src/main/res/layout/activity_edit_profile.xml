@@ -82,7 +82,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:hint="Contraseña actual">
+                        android:hint="Contraseña actual"
+                        app:passwordToggleEnabled="true"
+                        app:passwordToggleTint="@color/white">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/currentPasswordEditText"
@@ -98,7 +100,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:hint="Nueva contraseña">
+                        android:hint="Nueva contraseña"
+                        app:passwordToggleEnabled="true"
+                        app:passwordToggleTint="@color/white">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/newPasswordEditText"
@@ -114,7 +118,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:hint="Confirmar nueva contraseña">
+                        android:hint="Confirmar nueva contraseña"
+                        app:passwordToggleEnabled="true"
+                        app:passwordToggleTint="@color/white">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/confirmPasswordEditText"

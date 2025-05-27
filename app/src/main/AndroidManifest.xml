@@ -47,6 +47,12 @@
         <activity
             android:name=".EditProfileActivity"
             android:exported="false" />
+        <activity
+            android:name=".SecurityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SupportActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
