@@ -2,8 +2,11 @@ package com.example.paytrack
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.paytrack.adapters.TransactionAdapter
@@ -11,6 +14,7 @@ import com.example.paytrack.data.AppDatabase
 import com.example.paytrack.data.repository.TransactionRepository
 import com.example.paytrack.data.repository.WalletRepository
 import com.example.paytrack.databinding.ActivityMainBinding
+import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -34,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         setupRepositories()
         setupToolbar()
         setupRecyclerView()
+        setupDrawer()
         setupClickListeners()
-        setupBottomNavigation()
         loadData()
     }
 
@@ -55,6 +59,48 @@ class MainActivity : AppCompatActivity() {
         binding.recentTransactionsRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = transactionAdapter
+        }
+    }
+
+    private fun setupDrawer() {
+        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menuProfile -> {
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    intent.putExtra("USER_ID", currentUserId)
+                    startActivity(intent)
+                    binding.drawerLayout.closeDrawer(Gravity.END)
+                    true
+                }
+                R.id.menuWallet -> {
+                    val intent = Intent(this, WalletActivity::class.java)
+                    intent.putExtra("USER_ID", currentUserId)
+                    startActivity(intent)
+                    binding.drawerLayout.closeDrawer(Gravity.END)
+                    true
+                }
+                R.id.menuActivity -> {
+                    val intent = Intent(this, ActivityActivity::class.java)
+                    intent.putExtra("USER_ID", currentUserId)
+                    startActivity(intent)
+                    binding.drawerLayout.closeDrawer(Gravity.END)
+                    true
+                }
+                R.id.menuSecurity -> {
+                    val intent = Intent(this, SecurityActivity::class.java)
+                    intent.putExtra("USER_ID", currentUserId)
+                    startActivity(intent)
+                    binding.drawerLayout.closeDrawer(Gravity.END)
+                    true
+                }
+                R.id.menuHelp -> {
+                    val intent = Intent(this, SupportActivity::class.java)
+                    startActivity(intent)
+                    binding.drawerLayout.closeDrawer(Gravity.END)
+                    true
+                }
+                else -> false
+            }
         }
     }
 
@@ -82,37 +128,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.moreButton.setOnClickListener {
-            // TODO: Implementar menú de más opciones
-        }
-    }
-
-    private fun setupBottomNavigation() {
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_home -> {
-                    // Ya estamos en la pantalla de inicio
-                    true
-                }
-                R.id.navigation_wallet -> {
-                    val intent = Intent(this, WalletActivity::class.java)
-                    intent.putExtra("USER_ID", currentUserId)
-                    startActivity(intent)
-                    true
-                }
-                R.id.navigation_activity -> {
-                    val intent = Intent(this, ActivityActivity::class.java)
-                    intent.putExtra("USER_ID", currentUserId)
-                    startActivity(intent)
-                    true
-                }
-                R.id.navigation_profile -> {
-                    val intent = Intent(this, ProfileActivity::class.java)
-                    intent.putExtra("USER_ID", currentUserId)
-                    startActivity(intent)
-                    true
-                }
-                else -> false
-            }
+            binding.drawerLayout.openDrawer(Gravity.END)
         }
     }
 
@@ -143,5 +159,13 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         loadData() // Recargar datos cuando la actividad se reanuda
+    }
+
+    override fun onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(Gravity.END)) {
+            binding.drawerLayout.closeDrawer(Gravity.END)
+        } else {
+            super.onBackPressed()
+        }
     }
 }
