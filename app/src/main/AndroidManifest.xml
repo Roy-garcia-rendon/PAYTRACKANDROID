@@ -24,9 +24,6 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".QRActivity"
-            android:exported="false" />
-        <activity
             android:name=".PayActivity"
             android:exported="false" />
         <activity

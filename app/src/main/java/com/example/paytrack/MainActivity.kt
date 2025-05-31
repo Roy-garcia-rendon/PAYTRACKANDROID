@@ -123,10 +123,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.qrButton.setOnClickListener {
-            // TODO: Implementar funcionalidad QR
-        }
-
         binding.moreButton.setOnClickListener {
             binding.drawerLayout.openDrawer(Gravity.END)
         }
